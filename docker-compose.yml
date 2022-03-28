@@ -1,0 +1,25 @@
+version: "3.8"
+services:
+  mongodb:
+    image: mongo:4.0.8
+    container_name: calisabordb
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: cs_admin
+      MONGO_INITDB_ROOT_PASSWORD: p445w0rd
+    volumes:
+      - ~/apps/cs_db:/data/db
+    ports:
+      - "27017:27017"
+
+  app:
+     build: ./calisabor
+     container_name: calisabor
+     command: bash -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+     depends_on:
+       - mongodb
+     volumes:
+       - ~/apps/cs_app:/data/app
+     ports:
+       - "8000:8000"
+     restart: always
