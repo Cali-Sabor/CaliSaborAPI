@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-_&k*i=$%t0*!(9qo46_(9v$)8bczn=xv+nsa!bq5g4li_g=n6z
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -72,6 +72,16 @@ TEMPLATES = [
         },
     },
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+               'rest_framework.authentication.TokenAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+                'rest_framework.permissions.IsAuthenticated',
+    ),
+
+}
 
 WSGI_APPLICATION = 'calisabor.wsgi.application'
 

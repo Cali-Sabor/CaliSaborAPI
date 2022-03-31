@@ -25,7 +25,7 @@ urlpatterns = [
     path('api/', include(('api.urls', 'api'))),
     path('gen_token/', views.obtain_auth_token),
     path('login/', Login.as_view(), name='login'),
-    path('logout/', login_required(Logout.as_view())),
-    path('register/', login_required(Register.as_view())),
-    path('reset-password/', login_required(ResetPassword.as_view())),
+    path('logout/', Logout.as_view()),
+    path('register/', Register.as_view()),
+    path('reset-password/', ResetPassword.as_view()),
 ]

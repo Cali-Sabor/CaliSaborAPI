@@ -51,6 +51,8 @@ class Logout(LogoutView):
 
     Methods available : POST
     """
+    permission_classes = (IsAuthenticated,)
+    authentication_class = (TokenAuthentication,)
     HEADERS = {}
     BODY_TYPE = "dict"
 
@@ -90,7 +92,8 @@ class Register(RegisterView):
 
     Methods available : POST
     """
-
+    permission_classes = (IsAuthenticated,)
+    authentication_class = (TokenAuthentication,)
     HEADERS = {"CONTENT_TYPE": "application/json"}
     BODY_TYPE = "dict"
 
@@ -173,7 +176,8 @@ class ResetPassword(RegisterView):
 
     Methods available : POST
     """
-
+    permission_classes = (IsAuthenticated,)
+    authentication_class = (TokenAuthentication,)
     HEADERS = {"CONTENT_TYPE": "application/json"}
     BODY_TYPE = "dict"
 
