@@ -45,6 +45,10 @@ INSTALLED_APPS = [
     'allauth'
 ]
 
+ADMINS = (
+    ('cs_admin', 'admin@calisabor.com'),
+)
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
