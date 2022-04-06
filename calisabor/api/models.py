@@ -56,6 +56,9 @@ class Products(models.Model):
     last_modify = models.DateField(default=now)
 
     class Meta:
+        db_table = 'cs_products'
+    """
+    class Meta:
         abstract = True
 
 
@@ -64,15 +67,16 @@ class FormProduct(forms.ModelForm):
         model = Products
         fields = (
             'code', 'name', 'size', 'picture', 'pricing', 'last_modify'
-        )
+        )"""
 
 
 class Client(models.Model):
     """
 
     """
-    client_name = models.TextField(verbose_name="Nombre de empresa")
-    ceo_name = models.TextField(verbose_name="Gerente")
+    client_name = models.CharField(max_length=100, verbose_name="Nombre de empresa")
+    ceo_name = models.CharField(max_length=100, verbose_name="Gerente")
+    cco_name = models.CharField(max_length=100, verbose_name="Jefe de compras")
     address = models.CharField(max_length=100)
     phone = models.CharField(max_length=10)
     mobile = models.CharField(max_length=10)
@@ -89,8 +93,8 @@ class Attendant(models.Model):
 
     """
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
-    first_name = models.TextField(verbose_name="Nombre encargado")
-    last_name = models.TextField(verbose_name="Apellido encargado")
+    first_name = models.CharField(max_length=50, verbose_name="Nombre encargado")
+    last_name = models.CharField(max_length=50, verbose_name="Apellido encargado")
     mobile = models.CharField(max_length=10, verbose_name="Celular encargado")
     note = models.CharField(max_length=200, verbose_name="Notas adicionales")
 
@@ -108,7 +112,8 @@ class Venues(models.Model):
     phone = models.CharField(max_length=10, verbose_name="Fijo corportativo")
     mobile = models.CharField(max_length=10, verbose_name="Celular corporativo")
     attendant = models.ForeignKey(Attendant, on_delete=models.CASCADE)
-    products = ArrayField(model_container=Products, model_form_class=FormProduct, default=[])
+    #products = ArrayField(model_container=Products, model_form_class=FormProduct, default=[])
+    products = models.TextField(verbose_name="Lista de productos para esta sucursal")
 
     class Meta:
         db_table = 'cs_venues'
