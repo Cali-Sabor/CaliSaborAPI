@@ -15,7 +15,7 @@ services:
   app:
      build: ./calisabor
      container_name: calisabor
-     command: /bin/sh -c "entrypoint.sh"
+     command: /bin/sh -c "runserver.sh"
      depends_on:
        - mongodb
      volumes:
