@@ -1,6 +1,6 @@
 from django.db import models
-from django import forms
-from djongo.models.fields import ArrayField
+# from django import forms
+# from djongo.models.fields import ArrayField
 from django.utils.timezone import now
 
 from django.contrib.auth import get_user_model
@@ -75,17 +75,22 @@ class Client(models.Model):
 
     """
     client_name = models.CharField(max_length=100, verbose_name="Nombre de empresa")
+    nit = models.CharField(max_length=15, verbose_name="NIT del cliente")
     ceo_name = models.CharField(max_length=100, verbose_name="Gerente")
+    ceo_phone = models.CharField(max_length=10)
+    ceo_mobile = models.CharField(max_length=10)
     cco_name = models.CharField(max_length=100, verbose_name="Jefe de compras")
+    cco_phone = models.CharField(max_length=10)
+    cco_mobile = models.CharField(max_length=10)
     address = models.CharField(max_length=100)
-    phone = models.CharField(max_length=10)
-    mobile = models.CharField(max_length=10)
+    email = models.CharField(max_length=50, verbose_name="Correo electronico cliente")
+    logo = models.CharField(max_length=250, verbose_name="Logo", null=True)
 
     class Meta:
         db_table = 'cs_clients'
 
     def __str__(self):
-        return f"{self.id}-{self.client_name}"
+        return f"{self.id}-{self.client_name}, {self.nit}"
 
 
 class Attendant(models.Model):
@@ -112,7 +117,7 @@ class Venues(models.Model):
     phone = models.CharField(max_length=10, verbose_name="Fijo corportativo")
     mobile = models.CharField(max_length=10, verbose_name="Celular corporativo")
     attendant = models.ForeignKey(Attendant, on_delete=models.CASCADE)
-    #products = ArrayField(model_container=Products, model_form_class=FormProduct, default=[])
+    # products = ArrayField(model_container=Products, model_form_class=FormProduct, default=[])
     products = models.TextField(verbose_name="Lista de productos para esta sucursal")
 
     class Meta:
