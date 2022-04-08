@@ -15,10 +15,8 @@ COPY requirements.txt ./
 RUN pip install -r requirements.txt
 COPY . .
 
-EXPOSE 8000
-COPY runserver.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
-ENTRYPOINT "/entrypoint.sh"
+RUN chmod +x runserver.sh
+ENTRYPOINT ["sh", "runserver.sh"]
 # CMD ["python", "manage.py", "makemigrations"]
 # CMD ["python", "manage.py", "migrate"]
 # CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]

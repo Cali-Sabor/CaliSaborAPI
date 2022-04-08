@@ -20,6 +20,8 @@ services:
        - mongodb
      volumes:
        - ~/apps/cs_app:/data/app
+     expose:
+       - "8000"
      ports:
        - "8000:8000"
-     restart: always
+     restart: unless-stopped
