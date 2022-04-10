@@ -181,7 +181,6 @@ class DeleteClient(APIView):
             client = Client.objects.get(
                 nit=nit
             )
-            print(client)
             name = client.client_name
             client.delete()
             response = {"message": f"Client {name} deleted successfully"}
