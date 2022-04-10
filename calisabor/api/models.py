@@ -43,33 +43,6 @@ class Profile(models.Model):
         db_table = 'cs_users'
 
 
-# # ArrayField model
-class Products(models.Model):
-    """
-
-    """
-    code = models.CharField(max_length=20)
-    name = models.CharField(max_length=50)
-    size = models.CharField(max_length=20)
-    picture = models.CharField(max_length=250)
-    pricing = models.IntegerField(default=0)
-    last_modify = models.DateField(default=now)
-
-    class Meta:
-        db_table = 'cs_products'
-    """
-    class Meta:
-        abstract = True
-
-
-class FormProduct(forms.ModelForm):
-    class Meta:
-        model = Products
-        fields = (
-            'code', 'name', 'size', 'picture', 'pricing', 'last_modify'
-        )"""
-
-
 class Client(models.Model):
     """
 
@@ -91,6 +64,35 @@ class Client(models.Model):
 
     def __str__(self):
         return f"{self.id}-{self.client_name}, {self.nit}"
+
+
+# # ArrayField model
+class Products(models.Model):
+    """
+
+    """
+    client = models.ForeignKey(Client, on_delete=models.CASCADE)
+    code = models.CharField(max_length=20)
+    name = models.CharField(max_length=50)
+    size = models.CharField(max_length=20, verbose_name="Tamaño o peso del producto")
+    measure = models.CharField(max_length=5, default="gr", verbose_name="Unidad de medida")
+    picture = models.CharField(max_length=250)
+    pricing = models.IntegerField(default=0, verbose_name="Precio de venta")
+    last_modify = models.DateField(default=now)
+
+    class Meta:
+        db_table = 'cs_products'
+    """
+    class Meta:
+        abstract = True
+
+
+class FormProduct(forms.ModelForm):
+    class Meta:
+        model = Products
+        fields = (
+            'code', 'name', 'size', 'picture', 'pricing', 'last_modify'
+        )"""
 
 
 class Attendant(models.Model):
@@ -123,8 +125,8 @@ class Venues(models.Model):
     class Meta:
         db_table = 'cs_venues'
 
-# # Marketing
 
+# # Marketing
 class Marketing(models.Model):
     """
         Este es el mercadeo/venta
@@ -147,7 +149,7 @@ class StockByVenue(models.Model):
     """
     venue = models.ForeignKey(Venues, on_delete=models.CASCADE)
     date = models.DateField(default=now)
-    Inventory = models.CharField(max_length=200)
+    inventory = models.CharField(max_length=200)
 
     class Meta:
         db_table = 'cd_stock_by_venue'

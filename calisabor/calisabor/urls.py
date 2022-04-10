@@ -18,7 +18,8 @@ from django.urls import path, include
 from django.contrib.auth.decorators import login_required
 from rest_framework.authtoken import views
 from api.auth import Login, Logout, Register, ResetPassword
-
+from api.views.client import NewClient, EditClient, DeleteClient
+from api.views.products import NewProduct, EditProduct, DeleteProduct
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,4 +29,10 @@ urlpatterns = [
     path('logout/', Logout.as_view()),
     path('register/', Register.as_view()),
     path('reset-password/', ResetPassword.as_view()),
+    path('client/new/', NewClient.as_view()),
+    path('client/edit/', EditClient.as_view()),
+    path('client/delete/', DeleteClient.as_view()),
+    path('product/new/', NewProduct.as_view()),
+    path('product/edit/', EditProduct.as_view()),
+    path('product/delete/', DeleteProduct.as_view()),
 ]
