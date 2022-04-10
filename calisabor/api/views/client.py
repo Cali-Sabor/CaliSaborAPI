@@ -188,6 +188,5 @@ class DeleteClient(APIView):
         except Client.DoesNotExist:
             response = {"message": f"The client doesn't exists"}
 
-        # Create Profile
         status = codes.HTTP_200_OK
         return HttpResponse(json.dumps(response), "application/json", status=status)

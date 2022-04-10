@@ -7,11 +7,15 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 
-from ..models import Products
+from ..models import Products, Client
 
 
 def request_data(body):
+    """
+        Utility for recreate the body in a dict
+    """
     return {
+        "client": body.get("client"),
         "name": body.get("name"),
         "code": body.get("code"),
         "size": body.get("size"),
@@ -55,24 +59,33 @@ class NewProduct(APIView):
 
         body = request.data
         data = request_data(body)
-        # Create new user with new password
+        # Get client
+        try:
+            client = Client.objects.get(
+                nit=data["client"]
+            )
+        except Client.DoesNotExist:
+            status = codes.HTTP_400_BAD_REQUEST
+            response = {"message": f"Client {data['client']} doesn't exist, please check"}
+            return HttpResponse(json.dumps(response), "application/json", status=status)
+        # Create new product
         new_product = Products.objects.get_or_create(
             name=data['name']
         )
-        print(new_product)
         if new_product[1]:
+            new_product[0].client = client
             new_product[0].code = data.get("code")
             new_product[0].size = data.get("size")
             new_product[0].measure = data.get("measure")
             new_product[0].picture = data.get("picture")
             new_product[0].pricing = data.get("pricing")
             new_product[0].save()
+            status = codes.HTTP_200_OK
             response = {"message": f"Product {new_product[0].name} created successfully"}
         else:
+            status = codes.HTTP_208_ALREADY_REPORTED
             response = {"message": f"Product {new_product[0].name} (Code: {new_product[0].code}) already exists"}
 
-        # Create Profile
-        status = codes.HTTP_200_OK
         return HttpResponse(json.dumps(response), "application/json", status=status)
 
 
@@ -120,7 +133,7 @@ class EditProduct(APIView):
             product.picture = data.get("picture")
             product.pricing = data.get("pricing")
             product.save()
-            response["message"] = f"Product {product.name} created successfully"
+            response["message"] = f"Product {product.name} updated successfully"
         except Products.DoesNotExist:
             response["message"] = f"The product doesn't exists"
 
