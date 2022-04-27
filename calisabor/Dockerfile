@@ -3,8 +3,7 @@ FROM python:3.8
 WORKDIR /calisabor
 ENV PYTHONUNBUFFERED 1
 
-RUN apt-get update \
-    && apt-get -y install libpq-dev gcc
+RUN apt-get update && apt-get -y install libpq-dev gcc
 
 RUN pip install --upgrade pip wheel
 
@@ -17,7 +16,4 @@ COPY . .
 
 RUN chmod +x runserver.sh
 ENTRYPOINT ["sh", "runserver.sh"]
-# CMD ["python", "manage.py", "makemigrations"]
-# CMD ["python", "manage.py", "migrate"]
-# CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
-# CMD ["/calisabor/runserver.sh"]
+

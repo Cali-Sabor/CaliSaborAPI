@@ -1,6 +1,6 @@
 from django.db import models
-# from django import forms
-# from djongo.models.fields import ArrayField
+from django import forms
+from djongo.models.fields import ArrayField
 from django.utils.timezone import now
 
 from django.contrib.auth import get_user_model
@@ -66,7 +66,6 @@ class Client(models.Model):
         return f"{self.id}-{self.client_name}, {self.nit}"
 
 
-# # ArrayField model
 class Products(models.Model):
     """
 
@@ -114,6 +113,7 @@ class Venues(models.Model):
 
     """
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
+    name = models.CharField(max_length=50, default="")
     code = models.CharField(max_length=20)
     address = models.CharField(max_length=100)
     phone = models.CharField(max_length=10, verbose_name="Fijo corportativo")
@@ -127,6 +127,30 @@ class Venues(models.Model):
 
 
 # # Marketing
+
+# # ArrayField model
+class Order(models.Model):
+    """
+
+    """
+    purchase_order = models.CharField(max_length=50)
+    quantities = models.CharField(max_length=250)
+    creation_date = models.DateField()
+    last_modify = models.DateField(default=now)
+
+    class Meta:
+        db_table = 'cs_oder'
+        abstract = True
+
+
+class FormOrder(forms.ModelForm):
+    class Meta:
+        model = Order
+        fields = (
+            'purchase_order', 'quantities', 'creation_date', 'last_modify'
+        )
+
+
 class Marketing(models.Model):
     """
         Este es el mercadeo/venta
@@ -134,13 +158,12 @@ class Marketing(models.Model):
     venue = models.ForeignKey(Venues, on_delete=models.CASCADE)
     init_date = models.DateField(default=now)
     deliver_date = models.DateField()
-    purchase_order = models.CharField(max_length=50)
-    order = models.CharField(max_length=200)
+    order = ArrayField(model_container=Order, model_form_class=FormOrder, default=[])
     notes = models.CharField(max_length=200, verbose_name="Notas adicionales")
     status = models.CharField(max_length=30, default="No entregado")
 
     class Meta:
-        db_table = 'cd_marketing'
+        db_table = 'cs_marketing'
 
 
 class StockByVenue(models.Model):
@@ -152,4 +175,4 @@ class StockByVenue(models.Model):
     inventory = models.CharField(max_length=200)
 
     class Meta:
-        db_table = 'cd_stock_by_venue'
+        db_table = 'cs_stock_by_venue'

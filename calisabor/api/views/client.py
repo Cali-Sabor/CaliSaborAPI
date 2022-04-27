@@ -57,7 +57,7 @@ class NewClient(APIView):
         HttpResponse
             Response object
         """
-        response = {}
+
         body = request.data
         data = request_data(body)
         # Create new user with new password
@@ -116,7 +116,6 @@ class EditClient(APIView):
         HttpResponse
             Response object
         """
-        response = {}
         body = request.data
         data = request_data(body)
         try:  # Create new user with new password
@@ -173,7 +172,6 @@ class DeleteClient(APIView):
         HttpResponse
             Response object
         """
-        response = {}
         body = request.data
         nit = body.get("nit")
         print(f"Nit: {nit}")

@@ -19,9 +19,9 @@ def request_data(body):
         "name": body.get("name"),
         "code": body.get("code"),
         "size": body.get("size"),
-        "measure": body.get("measure"),
-        "picture": body.get("picture"),
-        "pricing": body.get("pricing")
+        "measure": body.get("measure", "Pendiente"),
+        "picture": body.get("picture", "Pendiente"),
+        "pricing": body.get("pricing", "Pendiente")
     }
 
 

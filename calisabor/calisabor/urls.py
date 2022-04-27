@@ -20,6 +20,8 @@ from rest_framework.authtoken import views
 from api.auth import Login, Logout, Register, ResetPassword
 from api.views.client import NewClient, EditClient, DeleteClient
 from api.views.products import NewProduct, EditProduct, DeleteProduct
+from api.views.attendant import NewAttendant
+from api.views.venues import NewVenue
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -35,4 +37,6 @@ urlpatterns = [
     path('product/new/', NewProduct.as_view()),
     path('product/edit/', EditProduct.as_view()),
     path('product/delete/', DeleteProduct.as_view()),
+    path('attendant/new/', NewAttendant.as_view()),
+    path('venue/new/', NewVenue.as_view()),
 ]
